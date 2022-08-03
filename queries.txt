@@ -50,3 +50,13 @@ mutation updateRecord{
     finishdate
   }
 }
+
+
+query getStudents{
+	getStudents{
+    nombre
+    dni
+    direccion
+    fecha_nacimiento
+  }
+}
