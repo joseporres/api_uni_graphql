@@ -7,18 +7,34 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/joseporres/api_uni_graphql/graph/models"
 	"github.com/joseporres/api_uni_graphql/graph/generated"
 	"github.com/joseporres/api_uni_graphql/graph/model"
 )
 
 // CreateStudent is the resolver for the createStudent field.
 func (r *mutationResolver) CreateStudent(ctx context.Context, nombre *string, dni string, direccion *string, fechaNacimiento *string) (*model.Student, error) {
-	panic(fmt.Errorf("not implemented"))
+	db := models.FetchConnection()
+    defer db.Close()
+
+	student := model.Student{Nombre: nombre, Dni: dni, Direccion: direccion, FechaNacimiento: fechaNacimiento}
+
+	db.Create(&student)
+
+	return &student,nil;
+
 }
 
 // CreateCourse is the resolver for the createCourse field.
 func (r *mutationResolver) CreateCourse(ctx context.Context, nombre string, descripcion *string, temas *string) (*model.Course, error) {
-	panic(fmt.Errorf("not implemented"))
+	db := models.FetchConnection()
+    defer db.Close()
+
+	course := model.Course{Nombre: nombre, Descripcion: descripcion, Temas: temas}
+
+	db.Create(&course)
+	
+	return &course,nil;
 }
 
 // CreateRecord is the resolver for the createRecord field.
@@ -92,6 +108,6 @@ func (r *Resolver) Mutation() generated.MutationResolver { return &mutationResol
 // Query returns generated.QueryResolver implementation.
 func (r *Resolver) Query() generated.QueryResolver { return &queryResolver{r} }
 
-type mutationResolver struct{ *Resolver }
+type mutationResolver struct{ *Resolver}
 type queryResolver struct{ *Resolver }
 

@@ -7,13 +7,20 @@ import (
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/joseporres/api_uni_graphql/graph/models"
+	"github.com/joseporres/api_uni_graphql/graph/model"
 	"github.com/joseporres/api_uni_graphql/graph"
 	"github.com/joseporres/api_uni_graphql/graph/generated"
 )
 
 const defaultPort = "8080"
 
+
 func main() {
+	db := models.FetchConnection()
+	db.AutoMigrate(&model.Record{},&model.Student{},&model.Course{})
+	db.Close()
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = defaultPort
