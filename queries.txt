@@ -51,6 +51,29 @@ mutation updateRecord{
   }
 }
 
+mutation deleteStudent{
+  deleteStudent(dni:"71869374") {
+    nombre
+    direccion
+    fecha_nacimiento
+  }
+}
+
+mutation deleteCourse{
+  deleteCourse(nombre:"Java") {
+    nombre
+    descripcion
+    temas
+  }
+}
+
+mutation deleteRecord{
+  deleteRecord(student:"87654321", course: "Java") {
+    student
+    course
+  }
+}
+
 
 query getStudents{
 	getStudents{
@@ -58,5 +81,41 @@ query getStudents{
     dni
     direccion
     fecha_nacimiento
+  }
+}
+
+query getCourses{
+	getCourses{
+    nombre
+    descripcion
+    temas
+  }
+}
+
+query getRecords{
+	getRecords{
+    student
+    course
+    startdate
+    finishdate
+  }
+}
+
+query getStudent{
+  getStudent(dni:"71869374"){
+    nombre
+  }
+}
+
+query getCourse{
+  getCourse(nombre:"C++"){
+    nombre
+  }
+}
+
+query getRecord{
+  getRecord(student:"12345678", course: "Python"){
+    student
+    course
   }
 }

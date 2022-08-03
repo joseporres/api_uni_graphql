@@ -5,7 +5,6 @@ package graph
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/joseporres/api_uni_graphql/graph/generated"
 	"github.com/joseporres/api_uni_graphql/graph/model"
@@ -100,12 +99,26 @@ func (r *mutationResolver) DeleteStudent(ctx context.Context, dni string) (*mode
 
 // DeleteCourse is the resolver for the deleteCourse field.
 func (r *mutationResolver) DeleteCourse(ctx context.Context, nombre string) (*model.Course, error) {
-	panic(fmt.Errorf("not implemented"))
+	db := models.FetchConnection()
+	defer db.Close()
+
+	course := model.Course{Nombre: nombre}
+
+	db.Where("nombre = ?", nombre).First(&course).Delete(&course)
+
+	return &course, nil
 }
 
 // DeleteRecord is the resolver for the deleteRecord field.
 func (r *mutationResolver) DeleteRecord(ctx context.Context, student string, course string) (*model.Record, error) {
-	panic(fmt.Errorf("not implemented"))
+	db := models.FetchConnection()
+	defer db.Close()
+
+	record := model.Record{Student: student, Course: course}
+
+	db.Where("student = ? AND course = ?", student, course).First(&record).Delete(&record)
+
+	return &record, nil
 }
 
 // GetStudents is the resolver for the getStudents field.
@@ -121,12 +134,24 @@ func (r *queryResolver) GetStudents(ctx context.Context) ([]*model.Student, erro
 
 // GetCourses is the resolver for the getCourses field.
 func (r *queryResolver) GetCourses(ctx context.Context) ([]*model.Course, error) {
-	panic(fmt.Errorf("not implemented"))
+	db := models.FetchConnection()
+
+	defer db.Close()
+	var courses []*model.Course
+	db.Find(&courses)
+
+	return courses, nil
 }
 
 // GetRecords is the resolver for the getRecords field.
 func (r *queryResolver) GetRecords(ctx context.Context) ([]*model.Record, error) {
-	panic(fmt.Errorf("not implemented"))
+	db := models.FetchConnection()
+
+	defer db.Close()
+	var records []*model.Record
+	db.Find(&records)
+
+	return records, nil
 }
 
 // GetStudent is the resolver for the getStudent field.
@@ -143,12 +168,26 @@ func (r *queryResolver) GetStudent(ctx context.Context, dni string) (*model.Stud
 
 // GetCourse is the resolver for the getCourse field.
 func (r *queryResolver) GetCourse(ctx context.Context, nombre string) (*model.Course, error) {
-	panic(fmt.Errorf("not implemented"))
+	db := models.FetchConnection()
+	defer db.Close()
+
+	course := model.Course{Nombre: nombre}
+
+	db.Where("nombre = ?", nombre).First(&course)
+
+	return &course, nil
 }
 
 // GetRecord is the resolver for the getRecord field.
 func (r *queryResolver) GetRecord(ctx context.Context, student string, course string) (*model.Record, error) {
-	panic(fmt.Errorf("not implemented"))
+	db := models.FetchConnection()
+	defer db.Close()
+
+	record := model.Record{Student: student, Course: course}
+
+	db.Where("student = ? AND course = ?", student, course).First(&record)
+
+	return &record, nil
 }
 
 // Mutation returns generated.MutationResolver implementation.
