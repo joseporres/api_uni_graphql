@@ -1,0 +1,52 @@
+mutation createStudent {
+  createStudent(nombre: "jose", dni: "71231231", direccion: "jocke", fecha_nacimiento: "18/09/01"){
+    nombre
+    dni
+    direccion
+    fecha_nacimiento
+  }
+}
+
+mutation createCourse{
+  createCourse(nombre: "graphql", descripcion: "nose", temas: "api"){
+    	nombre
+    	descripcion
+    	temas
+    	
+  }
+}
+
+mutation createRecord{
+  createRecord(student: "71231231", course: "graphql", startdate: "18/09", finishdate: "20/09"){
+    student
+    course
+    startdate
+    finishdate
+  }
+}
+
+mutation updateStudent{
+  updateStudent(nombre: "CESAR", dni: "71231231", direccion: "Jockey Plaza", fecha_nacimiento: "18/09/2001"){
+    nombre
+    dni
+    direccion
+    fecha_nacimiento
+  }
+}
+
+mutation updateCourse{
+  updateCourse(nombre: "graphql", descripcion: "SIGUIENTE", temas: "next theme"){
+    nombre
+    descripcion
+    temas
+  }
+}
+
+mutation updateRecord{
+  updateRecord(student: "87654321", course: "Python", startdate: "2022-08-01", finishdate: "2022-08-10"){
+    student
+    course
+    startdate
+    finishdate
+  }
+}
