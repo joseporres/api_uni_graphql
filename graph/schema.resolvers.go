@@ -39,22 +39,51 @@ func (r *mutationResolver) CreateCourse(ctx context.Context, nombre string, desc
 
 // CreateRecord is the resolver for the createRecord field.
 func (r *mutationResolver) CreateRecord(ctx context.Context, student string, course string, startdate *string, finishdate *string) (*model.Record, error) {
-	panic(fmt.Errorf("not implemented"))
+	db := models.FetchConnection()
+    defer db.Close()
+
+	record := model.Record{Student: student, Course: course, Startdate: startdate, Finishdate: finishdate}
+
+	db.Create(&record)
+	
+	return &record,nil;
 }
 
 // UpdateStudent is the resolver for the updateStudent field.
 func (r *mutationResolver) UpdateStudent(ctx context.Context, nombre *string, dni string, direccion *string, fechaNacimiento *string) (*model.Student, error) {
-	panic(fmt.Errorf("not implemented"))
+	db := models.FetchConnection()
+    defer db.Close()
+	
+	student := model.Student{Dni: dni}
+
+	db.Model(&student).Where("dni = ?", dni).Update(&model.Student{Nombre: nombre, Direccion: direccion, FechaNacimiento: fechaNacimiento})
+
+	return &student,nil;
+
 }
 
 // UpdateCourse is the resolver for the updateCourse field.
 func (r *mutationResolver) UpdateCourse(ctx context.Context, nombre string, descripcion *string, temas *string) (*model.Course, error) {
-	panic(fmt.Errorf("not implemented"))
+	db := models.FetchConnection()
+    defer db.Close()
+	
+	course := model.Course{Nombre: nombre}
+
+	db.Model(&course).Where("nombre = ?", nombre).Update(&model.Course{Descripcion: descripcion, Temas: temas})
+
+	return &course,nil;
 }
 
 // UpdateRecord is the resolver for the updateRecord field.
 func (r *mutationResolver) UpdateRecord(ctx context.Context, student string, course string, startdate *string, finishdate *string) (*model.Record, error) {
-	panic(fmt.Errorf("not implemented"))
+	db := models.FetchConnection()
+    defer db.Close()
+	
+	record := model.Record{Student: student, Course: course}
+
+	db.Model(&record).Where("student = ? AND course = ?", student,course).Update(&model.Record{Startdate: startdate, Finishdate: finishdate})
+
+	return &record,nil;
 }
 
 // DeleteStudent is the resolver for the deleteStudent field.
