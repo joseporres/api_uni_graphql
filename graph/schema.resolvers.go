@@ -113,7 +113,6 @@ func (r *queryResolver) GetStudents(ctx context.Context) ([]*model.Student, erro
 	db := models.FetchConnection()
 
 	defer db.Close()
-
 	var students []*model.Student
 	db.Find(&students)
 
@@ -132,7 +131,14 @@ func (r *queryResolver) GetRecords(ctx context.Context) ([]*model.Record, error)
 
 // GetStudent is the resolver for the getStudent field.
 func (r *queryResolver) GetStudent(ctx context.Context, dni string) (*model.Student, error) {
-	panic(fmt.Errorf("not implemented"))
+	db := models.FetchConnection()
+	defer db.Close()
+
+	student := model.Student{Dni: dni}
+
+	db.Where("dni = ?", dni).First(&student)
+
+	return &student, nil
 }
 
 // GetCourse is the resolver for the getCourse field.
